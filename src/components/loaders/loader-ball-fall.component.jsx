@@ -1,16 +1,16 @@
 import React from 'react';
-import LoaderContainer from './loader.styles';
+import LoaderBallFallContainer from './loader-ball-fall.styles';
 
-const Loader = props => {
+const LoaderBallFall = props => {
     return (
-        <LoaderContainer>
+        <LoaderBallFallContainer>
             <div className="la-ball-fall la-3x">
                 <div></div>
                 <div></div>
                 <div></div>
             </div>
-        </LoaderContainer>
+        </LoaderBallFallContainer>
     )
 }
 
-export default Loader;
+export default LoaderBallFall;

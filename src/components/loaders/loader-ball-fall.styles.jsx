@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const LoaderContainer = styled.div`
+const LoaderBallFallContainer = styled.div`
     line-height: 70vh;
 
     &, .la-ball-fall {
@@ -235,4 +235,4 @@ const LoaderContainer = styled.div`
 
 `;
 
-export default LoaderContainer;
+export default LoaderBallFallContainer;

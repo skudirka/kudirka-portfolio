@@ -9,7 +9,7 @@ import {getProjectsSelector} from '../../redux/projects/projects.selectors';
 
 import SkillsBar from '../../components/skills-bar/skills-bar.component';
 import GridItem from '../../components/grid-item/grid-item.component';
-import Loader from '../../components/loader/loader.component';
+import LoaderBallFall from '../../components/loaders/loader-ball-fall.component';
 
 const useStyles = makeStyles(theme => ({
     cardGrid: {
@@ -38,7 +38,7 @@ const PortfolioPage = ({projects, fetchProjects}) => {
                             ))}
                         </Grid>
                     </Fragment>
-                ) : (<Loader />)}
+                ) : (<LoaderBallFall />)}
         </Container>
         </section>
     );
