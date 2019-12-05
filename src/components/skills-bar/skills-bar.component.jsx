@@ -5,54 +5,20 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 
 import SkillsBarContainer from './skills-bar.styles';
-import {getAllSkillsSelector, getFilteredSkillsSelector} from '../../redux/projects/projects.selectors';
-import {setSkillsFilter} from '../../redux/projects/projects.actions';
+import {getAllSkillsSelector} from '../../redux/projects/projects.selectors';
 import SkillsChip from '../skills-chip/skills-chip.component';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-    padding: theme.spacing(0.5),
-  },
-  chip: {
-    margin: theme.spacing(0.5),
-  },
+    root: {
+        display: 'flex',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+        padding: theme.spacing(.75),
+    }
 }));
 
-const SkillsBar = ({skills, filteredSkills, filterSkills}) => {
+const SkillsBar = ({skills}) => {
     const classes = useStyles();
-
-    /*const onChipToggle = skill => {
-        console.log('Chip toggle', skill)
-        if(skill==='ALL'){
-            filterSkills([]);
-        } else {
-            const idx = filteredSkills.indexOf(skill);
-            if( idx!==-1 ){
-                // remove
-                filteredSkills.splice(idx, 1);
-            } else {
-                // add
-                filteredSkills.push( skill );
-            }
-            filterSkills( filteredSkills );
-        }
-    }
-
-    const isActive = skill => {
-        switch( skill ){
-            case 'ALL' :
-                return !filteredSkills || filteredSkills.length===0;
-            default :
-                return filteredSkills && filteredSkills.includes(skill);
-        }
-    }
-
-    const getColor = skill => {
-        return isActive(skill) ? 'primary' : 'default';
-    }*/
 
     return (
         <SkillsBarContainer>
@@ -67,7 +33,6 @@ const SkillsBar = ({skills, filteredSkills, filterSkills}) => {
                         <SkillsChip
                             key={skill}
                             skill={skill}
-                            className={classes.chip}
                         />
                     );
                 })}
@@ -77,12 +42,7 @@ const SkillsBar = ({skills, filteredSkills, filterSkills}) => {
 }
 
 const mapStateToProps = createStructuredSelector({
-    skills: getAllSkillsSelector,
-    filteredSkills: getFilteredSkillsSelector
+    skills: getAllSkillsSelector
 });
 
-const mapDispatchToProps = dispatch => ({
-    filterSkills: skills => dispatch(setSkillsFilter(skills))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SkillsBar);
+export default connect(mapStateToProps)(SkillsBar);

@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 
 import {getProjects} from '../../redux/projects/projects.actions';
-import {getFilteredProjectsSelector} from '../../redux/projects/projects.selectors';
+import {getProjectsSelector} from '../../redux/projects/projects.selectors';
 
 import SkillsBar from '../../components/skills-bar/skills-bar.component';
 import GridItem from '../../components/grid-item/grid-item.component';
@@ -45,7 +45,7 @@ const PortfolioPage = ({projects, fetchProjects}) => {
 }
 
 const mapStateToProps = state => ({
-    projects: getFilteredProjectsSelector(state)
+    projects: getProjectsSelector(state)
 });
 
 const mapDispatchToProps = dispatch => ({

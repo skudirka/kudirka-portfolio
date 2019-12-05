@@ -1,9 +1,16 @@
 import React, {Fragment} from 'react';
 import {connect} from 'react-redux';
 import Chip from '@material-ui/core/Chip';
+import { makeStyles } from '@material-ui/core/styles';
 
 import {getIsSkillInFilterSelector} from '../../redux/projects/projects.selectors';
 import {addSkillFilter, removeSkillFilter, clearSkillFilter} from '../../redux/projects/projects.actions';
+
+const useStyles = makeStyles(theme => ({
+    chip: {
+        margin: theme.spacing(.75),
+    }
+}));
 
 const getColor = (bool) => {
     return bool ? 'primary' : 'default';
@@ -11,6 +18,8 @@ const getColor = (bool) => {
 
 const SkillsChip = ({skill, isSkillInFilter, addSkill, removeSkill, selectAllSkills}) => {
     
+    const classes = useStyles();
+
     const color = getColor(isSkillInFilter);
 
     const onChipToggle = () => {
@@ -36,7 +45,8 @@ const SkillsChip = ({skill, isSkillInFilter, addSkill, removeSkill, selectAllSki
                 label={skill}
                 clickable 
                 onClick={onChipToggle} 
-                color={color}
+                color={color} 
+                className={classes.chip}
             />
         </Fragment>
     )

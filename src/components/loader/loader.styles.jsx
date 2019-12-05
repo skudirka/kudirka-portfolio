@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 
 const LoaderContainer = styled.div`
-    margin-left: auto;
-    margin-right: auto;
     line-height: 70vh;
+
+    &, .la-ball-fall {
+        margin-left: auto;
+        margin-right: auto;
+    }
     
     /*!
     * Load Awesome v1.1.0 (http://github.danielcardoso.net/load-awesome/)

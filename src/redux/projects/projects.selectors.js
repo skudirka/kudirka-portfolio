@@ -2,7 +2,7 @@ import {createSelector} from 'reselect';
 
 export const isLoadingSelector = state => state.isLoading;
 
-const getProjectsSelector = state => state.projects;
+export const getProjectsSelector = state => state.projects;
 
 export const getAllSkillsSelector = createSelector(
     getProjectsSelector,
@@ -49,3 +49,11 @@ export const getFilteredProjectsSelector = createSelector(
         }) : projects;
     }
 );
+
+export const getIsProjectVisibleSelector = (state, project) => {
+    return createSelector(
+        [getFilteredProjectsSelector],
+        visibleProjects => visibleProjects.some(checkProject => checkProject.id===project.id)
+    )
+    
+};

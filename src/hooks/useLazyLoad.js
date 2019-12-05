@@ -4,6 +4,8 @@ import placeholder from '../assets/placeholder-image.png';
 import SrcMap from '../classes/src-map';
 import {debounce} from 'lodash';
 
+const lazyLoadedRefs = new Map();
+
 const ioObserver = new window.IntersectionObserver((entries, itemObserver) => {
     entries.forEach(entry => {
         if( entry.isIntersecting ){
@@ -66,16 +68,26 @@ class ObservableList {
 // Master list of Observables
 const observables = new ObservableList();
 
+const hasAlreadyLazyLoaded = src => lazyLoadedRefs.has(src);
 
 const useLazyLoad = (reference, srcMapping, placeholderSrc=placeholder) => {
 
     const srcMap = new SrcMap(srcMapping);
 
-    const [srcPath, setSrcPath] = useState(placeholderSrc);
-    const [srcset, setSrcset] = useState(null);
+    const hasLoaded = hasAlreadyLazyLoaded(srcMap.src);
 
-    const [loaded, setLoaded] = useState(false);
-    const [sizes, setSizes] = useState(null);
+    const initialState = {
+        src: hasLoaded ? srcMap.src : placeholderSrc,
+        srcset: hasLoaded ? srcMap.srcSet : null,
+        sizes: null,
+        loaded: hasLoaded
+    }
+
+    const [srcPath, setSrcPath] = useState(initialState.src);
+    const [srcset, setSrcset] = useState(initialState.srcset);
+
+    const [loaded, setLoaded] = useState(initialState.loaded);
+    const [sizes, setSizes] = useState(initialState.sizes);
 
     const checkSize = useCallback(force => {
         if( loaded || force ){
@@ -93,6 +105,7 @@ const useLazyLoad = (reference, srcMapping, placeholderSrc=placeholder) => {
                 stopObserving();
 
                 // lazy-load
+                lazyLoadedRefs.set(srcMap.src, true); // unique to this project, only care if this particular image has already loaded. Other project you may just stick to reference object.
                 setLoaded(true);
                 // maintain this order of setting sizes, srcset, then src
                 checkSize(true);
@@ -118,6 +131,7 @@ const useLazyLoad = (reference, srcMapping, placeholderSrc=placeholder) => {
             checkSize();
         }, 100);
         window.addEventListener('resize', handleResize);
+        checkSize();
 
         return () => {
             // unmounting
