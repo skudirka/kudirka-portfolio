@@ -4,6 +4,9 @@ import {connect} from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Card from '@material-ui/core/Card';
+import Chip from '@material-ui/core/Chip';
+import Box from '@material-ui/core/Box';
+import Divider from '@material-ui/core/Divider';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
@@ -15,6 +18,9 @@ import ResponsiveImageModal from '../responsive-image-modal/responsive-image-mod
 import {getIsProjectVisibleSelector} from '../../redux/projects/projects.selectors';
 
 const useStyles = makeStyles(theme => ({
+    header: {
+        marginBottom: theme.spacing(1)
+    },
     cardGrid: {
       paddingTop: theme.spacing(8),
       paddingBottom: theme.spacing(8),
@@ -26,6 +32,17 @@ const useStyles = makeStyles(theme => ({
     },
     cardContent: {
       flexGrow: 1,
+    },
+    chip: {
+        height: '20px',
+        marginRight: '2px',
+        marginBottom: '2px',
+    },
+    divider: {
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+        marginLeft: 0,
+        marginRight: 0
     }
 }));
 
@@ -33,21 +50,48 @@ const GridItem = ({project, isVisible}) => {
     const classes = useStyles();
     console.log('project', project);
 
-    const {name, description, url} = project;
+    const {name, description, url, client} = project;
+
+    // get unique list, then sort
+    const sortedChips = project.skills ? Array.from(new Set(project.skills)).sort((a, b) => a.localeCompare(b)) : null;
     
     return (
         <Fragment>
-            <Grow in={isVisible} timeout={{enter: 400, exit: 300}} mountOnEnter unmountOnExit exit>
+            <Grow in={isVisible} timeout={{enter: 500, exit: 500}} mountOnEnter unmountOnExit exit>
                 <Grid item xs={12} sm={6} md={4}>
                     <Card className={classes.card}>
                         <ResponsiveImageModal imageMap={project.image} alt={name} />
                         <CardContent className={classes.cardContent}>
-                            <Typography gutterBottom variant="h5" component="h2">
-                            {name}
+                            <Box className={classes.header}>
+                                <Typography  variant="h5" component="h2">
+                                    {name}
+                                </Typography>
+                                {client ? (
+                                    <Typography variant="overline" display="block" color="secondary">
+                                        {client}
+                                    </Typography>
+                                ) : (null)}
+                            </Box>
+                            <Typography variant="body2">
+                                {description}
                             </Typography>
-                            <Typography>
-                            {description}
-                            </Typography>
+                            {sortedChips ? (
+                                <Fragment>
+                                    <Divider variant="middle" className={classes.divider} />
+                                    <Box>
+                                        {sortedChips.map(skill => (
+                                            <Chip
+                                                key={`${name}_${skill}`}
+                                                label={skill} 
+                                                variant="outlined" 
+                                                size="small" 
+                                                disabled 
+                                                className={classes.chip}
+                                            />
+                                        ))}
+                                    </Box>
+                                </Fragment>
+                            ) : (null)}
                         </CardContent>
                         <CardActions>
                             {url && (

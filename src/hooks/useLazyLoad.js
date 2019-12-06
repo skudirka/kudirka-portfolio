@@ -70,11 +70,11 @@ const observables = new ObservableList();
 
 const hasAlreadyLazyLoaded = src => lazyLoadedRefs.has(src);
 
-const useLazyLoad = (reference, srcMapping, placeholderSrc=placeholder) => {
+const useLazyLoad = (reference, srcMapping, skipLazyLoad, placeholderSrc=placeholder) => {
 
     const srcMap = new SrcMap(srcMapping);
 
-    const hasLoaded = hasAlreadyLazyLoaded(srcMap.src);
+    const hasLoaded = skipLazyLoad || hasAlreadyLazyLoaded(srcMap.src);
 
     const initialState = {
         src: hasLoaded ? srcMap.src : placeholderSrc,
@@ -91,7 +91,7 @@ const useLazyLoad = (reference, srcMapping, placeholderSrc=placeholder) => {
 
     const checkSize = useCallback(force => {
         if( loaded || force ){
-            setSizes( reference.current.clientWidth + 'px' );
+            setSizes( Math.max(reference.current.clientWidth, 100) + 'px' );
         }
     }, [reference, loaded]);
 

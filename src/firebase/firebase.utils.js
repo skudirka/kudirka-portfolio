@@ -60,7 +60,10 @@ export const getProjects = async () => {
     const projects = [];
     for(let doc of querySnapshot.docs){
         const {name, client, description, image, skills, url} = doc.data();
-        console.log(doc.id, name, client, description, image, skills);
+        if( !image ){
+            throw new Error(name + ' is missing an image!');
+        }
+        //console.log(doc.id, name, client, description, image, skills);
         const imageSources = await getImage(image);
         projects.push({
             id: doc.id,
@@ -69,7 +72,7 @@ export const getProjects = async () => {
             description,
             skills,
             image: imageSources,
-            url
+            url: url
         });
     }
     /*querySnapshot.forEach((doc) => {
@@ -84,7 +87,6 @@ export const getProjects = async () => {
     Returns a mapping of the image sources.
 */
 export const getImage = async (fileName, imagesRef) => {
-    const sizes = new Map();
     const imageRef = storage.child(fileName);
     
     let url;
@@ -100,18 +102,43 @@ export const getImage = async (fileName, imagesRef) => {
         url = imageRootURL + fileName + imageSuffixURL;
     }
     
+    return getImageSizesMap(fileName, url);
+}
+
+/*
+    Returns a mapping of the image sources.
+*/
+export const getImageSync = fileName => {
+    let url;
+    if( imageRootURL ){
+        url = imageRootURL + fileName + imageSuffixURL;
+    } else {
+        throw new Error('You need to call setImageUrlParts first to set variables before you call this.')
+    }
+    
+    return getImageSizesMap(fileName, url);
+}
+
+/*
+    Returns a mapping of the image sources.
+*/
+export const getImageSizesMap = (fileName, url) => {
+    const sizes = new Map();
+    
     if( url ){
         sizes.set('src', url);
 
         const scaledFilenames = getScaledFilenames( fileName );
         scaledFilenames.forEach((scaledFilename, idx) => {
             const scaledUrl = getScaledImage(scaledFilename);
-            //console.log('scaledFilename', scaledFilename, scaledUrl);
             if( scaledUrl ){
                 const size = SCALED_IMAGE_SIZES[idx];
                 sizes.set(size, scaledUrl);
             }
         });
+
+        // set original as largest size
+        sizes.set(1300, url);
     }
     
     return sizes;
@@ -121,7 +148,7 @@ export const getImage = async (fileName, imagesRef) => {
     Save the core URL parts from the storage get requests, 
     so we can manually construct the rest of the image paths and not have to make more calls.
 */
-const setImageUrlParts = (imageUrl, filename) => {
+export const setImageUrlParts = (imageUrl, filename) => {
     const url = parse(imageUrl, true);
     const lastIdx = url.pathname.lastIndexOf(filename);
     const basePath = url.pathname.substring(0, lastIdx);

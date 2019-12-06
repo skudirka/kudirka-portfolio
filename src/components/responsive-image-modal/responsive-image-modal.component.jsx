@@ -14,6 +14,9 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  button: {
+      borderBottom: '1px solid #efefef;'
+  },
   paper: {
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
@@ -30,7 +33,6 @@ const ResponsiveImageModal = ({imageMap, alt}) => {
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
-        console.log('trying to open!!!!!!!');
         setOpen(true);
     };
 
@@ -43,9 +45,8 @@ const ResponsiveImageModal = ({imageMap, alt}) => {
             <ButtonBase
                 focusRipple
                 key={alt}
-                //className={classes.image}
-                //focusVisibleClassName={classes.focusVisible}
-                onClick={handleOpen}
+                onClick={handleOpen} 
+                className={classes.button}
             >
                 <ResponsiveImage imageMap={imageMap} alt={alt} />
             </ButtonBase>

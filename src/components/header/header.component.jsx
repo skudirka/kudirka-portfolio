@@ -5,13 +5,14 @@ import Typography from '@material-ui/core/Typography';
 
 const Header = props => (
     <Fragment>
-        <AppBar position="relative">
+        <AppBar position="fixed">
             <Toolbar>
-            <Typography variant="h6" color="inherit" noWrap>
-                Steve Kudirka
+            <Typography className="special-font" variant="h5" component="h1" color="inherit" noWrap>
+                Kudirka Portfolio
             </Typography>
             </Toolbar>
         </AppBar>
+        <Toolbar />
     </Fragment>
 );
 

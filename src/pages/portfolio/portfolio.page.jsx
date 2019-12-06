@@ -3,18 +3,24 @@ import {connect} from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
+import Hidden from '@material-ui/core/Hidden';
 
 import {getProjects} from '../../redux/projects/projects.actions';
 import {getProjectsSelector} from '../../redux/projects/projects.selectors';
 
 import SkillsBar from '../../components/skills-bar/skills-bar.component';
+import SkillsMenu from '../../components/skills-menu/skills-menu.component';
 import GridItem from '../../components/grid-item/grid-item.component';
-import LoaderBallFall from '../../components/loaders/loader-ball-fall.component';
+import LoaderPacman from '../../components/loaders/loader-pacman.component';
 
 const useStyles = makeStyles(theme => ({
+    portfolio: {
+        zIndex: 2,
+        position: 'relative'
+    },
     cardGrid: {
-      paddingTop: theme.spacing(8),
-      paddingBottom: theme.spacing(8),
+      paddingTop: theme.spacing(2),
+      paddingBottom: theme.spacing(2),
     }
 }));
 
@@ -27,18 +33,23 @@ const PortfolioPage = ({projects, fetchProjects}) => {
     const classes = useStyles();
 
     return (
-        <section className="portfolio" steve={null}>
-            <Container className={classes.cardGrid} maxWidth="md">
+        <section className={classes.portfolio}>
+            <Container className={classes.cardGrid} maxWidth="lg">
                 {projects ? (
                     <Fragment>
-                        <SkillsBar />
+                        <Hidden smDown>
+                            <SkillsBar />
+                        </Hidden>
+                        <Hidden mdUp>
+                            <SkillsMenu />
+                        </Hidden>
                         <Grid container spacing={4}>
                             {projects.map(project => (
                                 <GridItem key={project.id} project={project} />
                             ))}
                         </Grid>
                     </Fragment>
-                ) : (<LoaderBallFall />)}
+                ) : (<LoaderPacman />)}
         </Container>
         </section>
     );

@@ -1,5 +1,6 @@
 {
   "name": "kudirka-portfolio",
+  "homepage" : "https://www.kudirka.com/demos/private/portfolio",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

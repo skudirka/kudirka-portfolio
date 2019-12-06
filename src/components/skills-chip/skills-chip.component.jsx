@@ -4,11 +4,14 @@ import Chip from '@material-ui/core/Chip';
 import { makeStyles } from '@material-ui/core/styles';
 
 import {getIsSkillInFilterSelector} from '../../redux/projects/projects.selectors';
-import {addSkillFilter, removeSkillFilter, clearSkillFilter} from '../../redux/projects/projects.actions';
+import {setSkillsFilter, removeSkillFilter, clearSkillFilter} from '../../redux/projects/projects.actions';
 
 const useStyles = makeStyles(theme => ({
     chip: {
-        margin: theme.spacing(.75),
+        margin: theme.spacing(.5),
+        [theme.breakpoints.up('lg')]: {
+            margin: theme.spacing(.75),
+        },
     }
 }));
 
@@ -16,7 +19,7 @@ const getColor = (bool) => {
     return bool ? 'primary' : 'default';
 }
 
-const SkillsChip = ({skill, isSkillInFilter, addSkill, removeSkill, selectAllSkills}) => {
+const SkillsChip = ({skill, isSkillInFilter, setSkills, removeSkill, selectAllSkills}) => {
     
     const classes = useStyles();
 
@@ -33,7 +36,7 @@ const SkillsChip = ({skill, isSkillInFilter, addSkill, removeSkill, selectAllSki
                 removeSkill(skill);
             } else {
                 // add
-                addSkill(skill);
+                setSkills([skill]);
             }
         }
     }
@@ -60,7 +63,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    addSkill: skill => dispatch(addSkillFilter(skill)),
+    setSkills: skills => dispatch(setSkillsFilter(skills)),
     removeSkill: skill => dispatch(removeSkillFilter(skill)),
     selectAllSkills: () => dispatch(clearSkillFilter())
 });
