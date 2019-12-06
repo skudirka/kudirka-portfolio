@@ -59,7 +59,7 @@ export const getProjects = async () => {
 
     const projects = [];
     for(let doc of querySnapshot.docs){
-        const {name, client, description, image, skills, url} = doc.data();
+        const {name, client, description, image, skills, url, source, status} = doc.data();
         if( !image ){
             throw new Error(name + ' is missing an image!');
         }
@@ -72,7 +72,9 @@ export const getProjects = async () => {
             description,
             skills,
             image: imageSources,
-            url: url
+            url: url,
+            source: source,
+            status: status
         });
     }
     /*querySnapshot.forEach((doc) => {

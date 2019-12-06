@@ -58,7 +58,7 @@ const SkillsChip = ({skill, isSkillInFilter, setSkills, removeSkill, selectAllSk
 const mapStateToProps = (state, props) => {
     const skillFilterSelector = getIsSkillInFilterSelector(state, props.skill);
     return {
-        isSkillInFilter: skillFilterSelector(state, props)
+        isSkillInFilter: skillFilterSelector(state)
     }
 };
 

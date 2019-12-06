@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Grow from '@material-ui/core/Grow';
 import ResponsiveImageModal from '../responsive-image-modal/responsive-image-modal.component';
+import BadgeLive from '../badges/badge-live.component';
 
 import {getIsProjectVisibleSelector} from '../../redux/projects/projects.selectors';
 
@@ -29,6 +30,12 @@ const useStyles = makeStyles(theme => ({
       height: '100%',
       display: 'flex',
       flexDirection: 'column',
+    },
+    cardActionRight: {
+        marginLeft: 'auto !important',
+    },
+    statusButton: {
+        paddingRight: 0,
     },
     cardContent: {
       flexGrow: 1,
@@ -50,7 +57,9 @@ const GridItem = ({project, isVisible}) => {
     const classes = useStyles();
     console.log('project', project);
 
-    const {name, description, url, client} = project;
+    const {name, description, url, client, source, status} = project;
+
+    const isLive = (status && (status.toLowerCase()==='live' || status.toLowerCase()==='demo'));
 
     // get unique list, then sort
     const sortedChips = project.skills ? Array.from(new Set(project.skills)).sort((a, b) => a.localeCompare(b)) : null;
@@ -97,9 +106,32 @@ const GridItem = ({project, isVisible}) => {
                             {url && (
                                 <Link href={url} target="_blank" rel="noreferrer" underline="none">
                                     <Button size="small" color="primary">
-                                        Launch
+                                        View
                                     </Button>
                                 </Link>
+                             : null)}
+                             {source && (
+                                <Link href={source} target="_blank" rel="noreferrer" underline="none">
+                                    <Button size="small" color="primary">
+                                        Source
+                                    </Button>
+                                </Link>
+                             : null)}
+                             {status && isLive && (
+                                <BadgeLive
+                                    overlap="circle"
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    variant="dot"
+                                    className={classes.cardActionRight}
+                                >
+                                    <Button className={classes.statusButton} size="small" disabled>{status}</Button>
+                                </BadgeLive>
+                             : null)}
+                             {status && !isLive && (
+                                <Button className={classes.statusButton} size="small" disabled>{status}</Button>
                              : null)}
                         </CardActions>
                     </Card>
@@ -112,7 +144,7 @@ const GridItem = ({project, isVisible}) => {
 const mapStateToProps = (state, props) => {
     const projectVisibleSelector = getIsProjectVisibleSelector(state, props.project);
     return {
-        isVisible: projectVisibleSelector(state, props)
+        isVisible: projectVisibleSelector(state)
     }
 };
 
