@@ -35,7 +35,11 @@ const useStyles = makeStyles(theme => ({
         marginLeft: 'auto !important',
     },
     statusButton: {
-        paddingRight: 0,
+        minWidth: 0,
+    },
+    client: {
+        lineHeight: theme.spacing(2.25)+'px', // 18px
+        marginBottom: theme.spacing(1.5) // 12px
     },
     cardContent: {
       flexGrow: 1,
@@ -59,7 +63,17 @@ const GridItem = ({project, isVisible}) => {
 
     const {name, description, url, client, source, status} = project;
 
-    const isLive = (status && (status.toLowerCase()==='live' || status.toLowerCase()==='demo'));
+    const checkStatus = status ? status.toLowerCase() : null;
+    let isLive = false;
+    switch( checkStatus ){
+        case 'live' :
+        case 'demo' :
+        case 'online' :
+            isLive = true;
+            break;
+        default :
+            isLive = false; 
+    }
 
     // get unique list, then sort
     const sortedChips = project.skills ? Array.from(new Set(project.skills)).sort((a, b) => a.localeCompare(b)) : null;
@@ -72,11 +86,11 @@ const GridItem = ({project, isVisible}) => {
                         <ResponsiveImageModal imageMap={project.image} alt={name} />
                         <CardContent className={classes.cardContent}>
                             <Box className={classes.header}>
-                                <Typography  variant="h5" component="h2">
+                                <Typography variant="h6" component="h2">
                                     {name}
                                 </Typography>
                                 {client ? (
-                                    <Typography variant="overline" display="block" color="secondary">
+                                    <Typography className={classes.client} variant="overline" display="block" color="secondary">
                                         {client}
                                     </Typography>
                                 ) : (null)}
@@ -127,11 +141,13 @@ const GridItem = ({project, isVisible}) => {
                                     variant="dot"
                                     className={classes.cardActionRight}
                                 >
-                                    <Button className={classes.statusButton} size="small" disabled>{status}</Button>
+                                    <Button className={classes.statusButton} size="small" disabled aria-label={`Status: ${status}`}>{status}</Button>
                                 </BadgeLive>
                              : null)}
                              {status && !isLive && (
-                                <Button className={classes.statusButton} size="small" disabled>{status}</Button>
+                                <div className={classes.cardActionRight}>
+                                    <Button className={classes.statusButton} size="small" disabled aria-label={`Status: ${status}`}>{status}</Button>
+                                </div>
                              : null)}
                         </CardActions>
                     </Card>
