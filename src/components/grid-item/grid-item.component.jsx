@@ -59,7 +59,6 @@ const useStyles = makeStyles(theme => ({
 
 const GridItem = ({project, isVisible}) => {
     const classes = useStyles();
-    console.log('project', project);
 
     const {name, description, url, client, source, status} = project;
 

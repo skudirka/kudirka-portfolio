@@ -20,42 +20,10 @@ export const storage = firebase.storage().ref();
 let imageRootURL;
 let imageSuffixURL;
 
-/*export const convertCollectionsSnapshotToMap = collections => {
-    const transformedCollection = collections.docs.map(doc => {
-        const {title, items} = doc.data();
-
-        return {
-            routeName: encodeURI( title.toLowerCase() ),
-            id: doc.id,
-            title,
-            items
-        };
-    });
-
-    return transformedCollection.reduce((accumulator, collection) => {
-        accumulator[collection.title.toLowerCase()] = collection;
-        return accumulator;
-    }, {});
-};*/
-
 export const getProjects = async () => {
-    console.log('getProjects +++++++++++');
     const projectsRef = firestore.collection('projects');
 
     const querySnapshot = await projectsRef.get();
-
-    /*const projects = await querySnapshot.docs.map(async doc => {
-        const {name, client, description, image, skills} = doc.data();
-        console.log(doc.id, name, client, description, image, skills);
-        const imageSources = await getImage(image);
-        return {
-            name,
-            client,
-            description,
-            skills,
-            image: imageSources
-        };
-    });*/
 
     const projects = [];
     for(let doc of querySnapshot.docs){
@@ -77,10 +45,6 @@ export const getProjects = async () => {
             status: status
         });
     }
-    /*querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${doc.data()}`);
-    });*/
-    console.log('projects', projects);
 
     return projects;
 }
