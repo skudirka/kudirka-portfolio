@@ -26,18 +26,28 @@ const SkillsChip = ({skill, isSkillInFilter, setSkills, removeSkill, selectAllSk
     const color = getColor(isSkillInFilter);
 
     const onChipToggle = () => {
+        let selected = true;
+        let trackSkill = skill;
         if(skill==='ALL'){
             if( !isSkillInFilter ){
                 selectAllSkills();
+            } else {
+                selected = false;
             }
         } else {
             if( isSkillInFilter ){
                 // remove
                 removeSkill(skill);
+                trackSkill = 'ALL';
             } else {
                 // add
                 setSkills([skill]);
             }
+        }
+        const gtag = window['gtag'] || null;
+        if( gtag && selected ){
+            // GA track event
+            gtag('event', 'skills_menu_select', {'platform': 'desktop', 'skill': trackSkill});
         }
     }
     

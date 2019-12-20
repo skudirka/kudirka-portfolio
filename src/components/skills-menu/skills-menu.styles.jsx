@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 const SkillsMenuContainer = styled.div`
     text-align: center;
-    margin-bottom: 16px;
     
     .MuiInputBase-root,
     .MuiSelect-icon {

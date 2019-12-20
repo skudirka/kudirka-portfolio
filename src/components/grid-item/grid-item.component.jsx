@@ -76,6 +76,24 @@ const GridItem = ({project, isVisible}) => {
 
     // get unique list, then sort
     const sortedChips = project.skills ? Array.from(new Set(project.skills)).sort((a, b) => a.localeCompare(b)) : null;
+
+    const linkLabel = status && status.toLowerCase()==='redesigned' ? 'View Current' : 'View';
+
+    const onPreviewClick = () => {
+        const gtag = window['gtag'] || null;
+        if( gtag  ){
+            // GA track event
+            gtag('event', 'preview_click', {'project': name, 'link_target': url});
+        }
+    };
+
+    const onSourceClick = () => {
+        const gtag = window['gtag'] || null;
+        if( gtag  ){
+            // GA track event
+            gtag('event', 'source_click', {'project': name, 'link_target': source});
+        }
+    };
     
     return (
         <Fragment>
@@ -117,14 +135,14 @@ const GridItem = ({project, isVisible}) => {
                         </CardContent>
                         <CardActions>
                             {url && (
-                                <Link href={url} target="_blank" rel="noreferrer" underline="none">
+                                <Link href={url} target="_blank" rel="noreferrer" underline="none" onClick={onPreviewClick}>
                                     <Button size="small" color="primary">
-                                        View
+                                        {linkLabel}
                                     </Button>
                                 </Link>
                              : null)}
                              {source && (
-                                <Link href={source} target="_blank" rel="noreferrer" underline="none">
+                                <Link href={source} target="_blank" rel="noreferrer" underline="none" onClick={onSourceClick}>
                                     <Button size="small" color="primary">
                                         Source
                                     </Button>
@@ -135,7 +153,7 @@ const GridItem = ({project, isVisible}) => {
                                     overlap="circle"
                                     anchorOrigin={{
                                         vertical: 'top',
-                                        horizontal: 'right',
+                                        horizontal: 'left',
                                     }}
                                     variant="dot"
                                     className={classes.cardActionRight}

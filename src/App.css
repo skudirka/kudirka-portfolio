@@ -1,4 +1,9 @@
+html, body {
+    overflow-x: hidden;
+}
+
 body {
+    position: relative;
     background-color: #e0e0e0;
 }
 

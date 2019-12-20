@@ -1,10 +1,11 @@
 {
   "name": "kudirka-portfolio",
-  "homepage" : "https://www.kudirka.com/demos/private/portfolio",
+  "homepage": "https://www.kudirka.com/demos/private/portfolio",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.7.1",
+    "@material-ui/icons": "^4.5.1",
     "firebase": "^7.5.0",
     "intersection-observer": "^0.7.0",
     "lodash": "^4.17.15",

@@ -9,7 +9,6 @@ import {getProjects} from '../../redux/projects/projects.actions';
 import {getProjectsSelector} from '../../redux/projects/projects.selectors';
 
 import SkillsBar from '../../components/skills-bar/skills-bar.component';
-import SkillsMenu from '../../components/skills-menu/skills-menu.component';
 import GridItem from '../../components/grid-item/grid-item.component';
 import LoaderPacman from '../../components/loaders/loader-pacman.component';
 
@@ -39,9 +38,6 @@ const PortfolioPage = ({projects, fetchProjects}) => {
                     <Fragment>
                         <Hidden smDown>
                             <SkillsBar />
-                        </Hidden>
-                        <Hidden mdUp>
-                            <SkillsMenu />
                         </Hidden>
                         <Grid container spacing={4}>
                             {projects.map(project => (

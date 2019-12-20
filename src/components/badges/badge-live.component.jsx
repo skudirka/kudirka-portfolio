@@ -5,8 +5,8 @@ const BadgeLive = withStyles(theme => ({
     badge: {
         backgroundColor: '#44b700',
         boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-        top: '18%',
-        right: '7%',
+        top: '50%',
+        left: '-2px',
 
         '&::after': {
             position: 'absolute',
