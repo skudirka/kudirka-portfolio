@@ -15,6 +15,8 @@ const ioObserver = new window.IntersectionObserver((entries, itemObserver) => {
             }
         }
     })
+}, {
+    rootMargin: '33.33%'
 });
 ioObserver.POLL_INTERVAL = 100; // Time in milliseconds.
 
